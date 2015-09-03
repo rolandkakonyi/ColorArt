@@ -59,10 +59,10 @@
     if (self)
     {
         self.scaledSize = size;
-		
+
 		NSImage *finalImage = [self scaleImage:image size:size];
 		self.scaledImage = finalImage;
-		
+
 		[self analyzeImage:image];
     }
 
@@ -119,7 +119,10 @@
 
 	if ( primaryColor == nil )
 	{
+#ifdef DEBUG
 		NSLog(@"missed primary");
+#endif
+
 		if ( darkBackground )
 			primaryColor = [NSColor whiteColor];
 		else
@@ -128,7 +131,10 @@
 
 	if ( secondaryColor == nil )
 	{
+#ifdef DEBUG
 		NSLog(@"missed secondary");
+#endif
+
 		if ( darkBackground )
 			secondaryColor = [NSColor whiteColor];
 		else
@@ -137,7 +143,10 @@
 
 	if ( detailColor == nil )
 	{
+#ifdef DEBUG
 		NSLog(@"missed detail");
+#endif
+
 		if ( darkBackground )
 			detailColor = [NSColor whiteColor];
 		else
@@ -190,7 +199,7 @@
 		NSUInteger colorCount = [leftEdgeColors countForObject:curColor];
 
         NSInteger randomColorsThreshold = (NSInteger)(pixelsHigh * kColorThresholdMinimumPercentage);
-        
+
 		if ( colorCount <= randomColorsThreshold ) // prevent using random colors, threshold based on input image height
 			continue;
 
@@ -281,7 +290,7 @@
 		{
 			if ( ![*secondaryColor pc_isDistinct:curColor] || ![*primaryColor pc_isDistinct:curColor] || ![curColor pc_isContrastingColor:backgroundColor] )
 				continue;
-            
+
 			*detailColor = curColor;
 			break;
 		}
@@ -449,7 +458,7 @@
 			return NSOrderedSame;
 		}
 	}
-    
+
 	return NSOrderedAscending;
 }
 
